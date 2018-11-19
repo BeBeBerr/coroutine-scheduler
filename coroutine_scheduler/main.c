@@ -18,18 +18,21 @@ extern cs_system_controller g_cs_system_controller;
 int a = 0;
 
 void *task_A() {
-    while (1) {
+    //while (1) {
         printf("A: %d\n", ++a);
-        cs_sleep(3);
+        cs_sleep(1);
         spin_once();
-    }
+    //}
+    exit_task();
     return NULL;
 }
 
 void *task_B() {
     while (1) {
-        //printf("B: %d\n", ++a);
+        printf("B: %d\n", ++a);
+        cs_sleep(1);
         spin_once();
+        exit_task();
     }
     return NULL;
 }

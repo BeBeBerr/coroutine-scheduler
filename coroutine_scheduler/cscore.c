@@ -94,6 +94,18 @@ void start_scheduler() {
     start_task(g_cs_system_controller.runloop);
 }
 
+
+// We have to call this function before a task 'returns'.
+// The reason is, the tasks are created and runned by jump to its address,
+// so they don't have callers.
+// They cannot return, but they can 'exit'.
+void exit_task() {
+    task_t *running_task = g_cs_system_controller.running_task;
+    g_cs_system_controller.kill_task_by_id_func(running_task->tid);
+    spin_once();
+}
+
+
 // Standard sleep function will block the whole system (as we have only 1 thread).
 // Use cs_sleep instead.
 // This function cannot ensure high precision, as other tasks may takes too much time to run.

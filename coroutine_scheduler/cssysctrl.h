@@ -21,6 +21,8 @@ typedef struct {
     int last_id; // should only increase to make all task id unique
     
     int(*add_new_task_func)(task_t *);
+    task_t *(*get_task_by_id_func)(int);
+    void(*kill_task_by_id_func)(int);
 } cs_system_controller;
 
 

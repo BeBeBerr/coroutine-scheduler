@@ -17,6 +17,7 @@
 void spin_once(void);
 void switch_task(task_t *t_from, task_t *t_to);
 int create_task(task_handler_t handler);
+void exit_task();
 // void start_task(task_t *task);
 void start_scheduler(void);
 void cs_sleep(long sleep_seconds);
