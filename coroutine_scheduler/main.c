@@ -20,7 +20,7 @@ int a = 0;
 void *task_A() {
     while (1) {
         printf("A: %d\n", ++a);
-        sleep(1);
+        cs_sleep(3);
         spin_once();
     }
     return NULL;
@@ -28,8 +28,7 @@ void *task_A() {
 
 void *task_B() {
     while (1) {
-        printf("B: %d\n", ++a);
-        sleep(1);
+        //printf("B: %d\n", ++a);
         spin_once();
     }
     return NULL;

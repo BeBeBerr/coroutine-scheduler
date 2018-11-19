@@ -8,7 +8,7 @@
 
 #include <strings.h>
 #include <stdlib.h>
-
+#include <sys/time.h>
 
 #include "cscore.h"
 #include "cssysctrl.h"
@@ -59,9 +59,7 @@ int create_task(task_handler_t handler) {
     void *stack_ptr = malloc(stack_size);
     
     task->next_task = NULL;
-    task->next_ready = NULL;
-    task->next_waiting = NULL;
-    //task->state = cs_task_state_ready;
+    task->state = cs_task_state_ready;
     
     int tid = g_cs_system_controller.add_new_task_func(task);
     
@@ -96,6 +94,24 @@ void start_scheduler() {
     start_task(g_cs_system_controller.runloop);
 }
 
-
+// Standard sleep function will block the whole system (as we have only 1 thread).
+// Use cs_sleep instead.
+// This function cannot ensure high precision, as other tasks may takes too much time to run.
+void cs_sleep(long sleep_seconds) {
+    if (sleep_seconds <= 0) {
+        print_error("%s", "cannot sleep a negative or zero value of time.");
+        return;
+    }
+    
+    task_t *task_to_sleep = g_cs_system_controller.running_task; // get the caller task
+    task_to_sleep->state = cs_task_state_sleeping; // set state to sleeping
+    
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    long current_time = tv.tv_sec; // get current time stamp
+    long expired_time = current_time + sleep_seconds;
+    
+    task_to_sleep->sleep_expired_time = expired_time; // set wake up time
+}
 
 

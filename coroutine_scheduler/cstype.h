@@ -22,6 +22,7 @@ typedef void *(*task_handler_t)(void);
 enum cs_task_state {
     cs_task_state_ready,
     cs_task_state_waiting,
+    cs_task_state_sleeping,
 };
 
 // The Task Control Block
@@ -32,8 +33,8 @@ typedef struct cs_task {
     task_handler_t hander; // the task function
     enum cs_task_state state;
     struct cs_task *next_task;
-    struct cs_task *next_ready;
-    struct cs_task *next_waiting;
+    
+    long sleep_expired_time;
 } task_t;
 
 
