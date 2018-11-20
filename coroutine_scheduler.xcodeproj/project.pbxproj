@@ -13,6 +13,7 @@
 		BE44F92C21A279EC00B9570E /* cssysctrl.c in Sources */ = {isa = PBXBuildFile; fileRef = BE44F92B21A279EC00B9570E /* cssysctrl.c */; };
 		BE44F93021A28A5600B9570E /* runloop.c in Sources */ = {isa = PBXBuildFile; fileRef = BE44F92F21A28A5600B9570E /* runloop.c */; };
 		BE44F93321A34EA000B9570E /* csshell.c in Sources */ = {isa = PBXBuildFile; fileRef = BE44F93221A34EA000B9570E /* csshell.c */; };
+		BE9C86F921A3C2BB0093D883 /* tasks.c in Sources */ = {isa = PBXBuildFile; fileRef = BE9C86F821A3C2BB0093D883 /* tasks.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,6 +41,8 @@
 		BE44F92F21A28A5600B9570E /* runloop.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = runloop.c; sourceTree = "<group>"; };
 		BE44F93121A34EA000B9570E /* csshell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = csshell.h; sourceTree = "<group>"; };
 		BE44F93221A34EA000B9570E /* csshell.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = csshell.c; sourceTree = "<group>"; };
+		BE9C86F721A3C2BB0093D883 /* tasks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tasks.h; sourceTree = "<group>"; };
+		BE9C86F821A3C2BB0093D883 /* tasks.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = tasks.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +86,8 @@
 				BE44F92F21A28A5600B9570E /* runloop.c */,
 				BE44F93121A34EA000B9570E /* csshell.h */,
 				BE44F93221A34EA000B9570E /* csshell.c */,
+				BE9C86F721A3C2BB0093D883 /* tasks.h */,
+				BE9C86F821A3C2BB0093D883 /* tasks.c */,
 			);
 			path = coroutine_scheduler;
 			sourceTree = "<group>";
@@ -145,6 +150,7 @@
 			files = (
 				BE44F93321A34EA000B9570E /* csshell.c in Sources */,
 				BE44F92921A21B6000B9570E /* cscore.c in Sources */,
+				BE9C86F921A3C2BB0093D883 /* tasks.c in Sources */,
 				BE44F92321A12A3C00B9570E /* context_handler.s in Sources */,
 				BE44F92C21A279EC00B9570E /* cssysctrl.c in Sources */,
 				BE44F91C21A129A300B9570E /* main.c in Sources */,

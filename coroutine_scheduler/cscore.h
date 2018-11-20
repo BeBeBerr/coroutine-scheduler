@@ -16,11 +16,13 @@
 
 void spin_once(void);
 void switch_task(task_t *t_from, task_t *t_to);
-int create_task(task_handler_t handler);
-void exit_task();
+int create_task(task_handler_t handler, char *desc);
+void exit_task(void);
 // void start_task(task_t *task);
+int get_current_tid(void);
 void start_scheduler(void);
 void cs_sleep(long sleep_seconds);
+long cs_read_terminal(void *buf, long size);
 
 
 // Colorful printing
@@ -36,8 +38,10 @@ void cs_sleep(long sleep_seconds);
 #ifdef DEBUG
 // Xocode doesn't support colorful printing
 #define print_error(fmt, args...) printf("Error: " fmt "\n", ##args)
+#define print_yellow(fmt, args...) printf(fmt "\n", ##args)
 #else
 #define print_error(fmt,args...) printf(RED "Error: " fmt RESET "\n", ##args)
+#define print_yellow(fmt,args...) printf(YELLOW fmt RESET "\n", ##args)
 #endif
 
 #endif /*cscore_h*/

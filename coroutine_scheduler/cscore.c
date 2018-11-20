@@ -9,6 +9,8 @@
 #include <strings.h>
 #include <stdlib.h>
 #include <sys/time.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 #include "cscore.h"
 #include "cssysctrl.h"
@@ -51,7 +53,7 @@ void spin_once() {
 }
 
 // Create a new coroutine task
-int create_task(task_handler_t handler) {
+int create_task(task_handler_t handler, char *desc) {
     
     task_t *task = malloc(sizeof(task_t));
     
@@ -60,6 +62,11 @@ int create_task(task_handler_t handler) {
     
     task->next_task = NULL;
     task->state = cs_task_state_ready;
+    
+    task->desc[0] = '\0';
+    if (desc != NULL) {
+        strcpy(task->desc, desc); // set the description
+    }
     
     int tid = g_cs_system_controller.add_new_task_func(task);
     
@@ -87,7 +94,13 @@ void start_task(task_t *task) {
     restore_context(&(task->ctx)); // set the context (registers) so the handler function will start running
 }
 
+// Get the running task ID
+int get_current_tid() {
+    return g_cs_system_controller.running_task->tid;
+}
+
 void start_scheduler() {
+    printf("Welcome!\n");
     if (g_cs_system_controller.runloop == NULL) {
         print_error("Empty run loop pointer. Check if initialized the system controller.");
     }
@@ -126,4 +139,19 @@ void cs_sleep(long sleep_seconds) {
     task_to_sleep->sleep_expired_time = expired_time; // set wake up time
 }
 
-
+long cs_read_terminal(void *buf, long size) {
+    int fd = open("/dev/tty", O_RDONLY | O_NONBLOCK);
+    if (fd < 0) {
+        print_error("%s", "open /dev/tty error.");
+        return -1;
+    }
+    
+    while (1) {
+        long n = read(fd, buf, size); // try to read once
+        if (n >= 0) {
+            return n;
+        } else {
+            spin_once(); //try angain later
+        }
+    }
+}

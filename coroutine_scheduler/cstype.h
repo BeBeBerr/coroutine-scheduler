@@ -16,7 +16,7 @@ typedef struct {
 } context_t;
 
 // Task Handler
-typedef void *(*task_handler_t)(void);
+typedef void(*task_handler_t)(void);
 
 // Task States
 enum cs_task_state {
@@ -33,6 +33,8 @@ typedef struct cs_task {
     task_handler_t hander; // the task function
     enum cs_task_state state;
     struct cs_task *next_task;
+    
+    char desc[50]; // brief description
     
     long sleep_expired_time;
 } task_t;

@@ -11,4 +11,6 @@
 
 #include <stdio.h>
 
+void shell_task(void);
+
 #endif /* csshell_h */

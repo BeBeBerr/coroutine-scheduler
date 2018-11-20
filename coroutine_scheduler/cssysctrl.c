@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include "cssysctrl.h"
 #include "runloop.h"
+#include "csshell.h"
 
 cs_system_controller g_cs_system_controller; // should be singleton
 
@@ -47,7 +48,7 @@ task_t *get_task_by_id(int tid) {
 // Kill a task
 // To kill a task, just remove it from the tasks list
 void kill_task_by_id(int tid) {
-    if (tid == g_cs_system_controller.running_task->tid) {
+    if (tid == g_cs_system_controller.runloop->tid) {
         print_error("%s", "Can not kill the system run loop!");
         return;
     }
@@ -76,7 +77,7 @@ void kill_task_by_id(int tid) {
     }
     if (task_ptr == NULL) {
         // task not found
-        print_error("%s", "the killing task not found.");
+        print_error("%s", "task not found.");
     } else {
         // free resources
         free(task_ptr);
@@ -92,8 +93,10 @@ void init_system_controller() {
     g_cs_system_controller.get_task_by_id_func = get_task_by_id;
     g_cs_system_controller.kill_task_by_id_func = kill_task_by_id;
     
-    int runloop_id = create_task(start_run_loop);
+    int runloop_id = create_task(start_run_loop, "Run Loop");
     g_cs_system_controller.runloop = get_task_by_id(runloop_id); // set the run loop ptr
+    
+    create_task(shell_task, "Shell"); // create shell task
 
 }
 

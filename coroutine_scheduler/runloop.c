@@ -29,7 +29,7 @@ void check_and_set_sleeping_task(task_t *task) {
 }
 
 // The scheduler
-void *start_run_loop() {
+void start_run_loop() {
     
     g_cs_system_controller.running_task = g_cs_system_controller.runloop;
     
@@ -62,5 +62,4 @@ void *start_run_loop() {
         
         //printf("back to run loop\n");
     }
-    return NULL;
 }
