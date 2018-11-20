@@ -97,6 +97,8 @@ void init_system_controller() {
     g_cs_system_controller.runloop = get_task_by_id(runloop_id); // set the run loop ptr
     
     create_task(shell_task, "Shell"); // create shell task
+    
+    print_yellow("%s", "Task output will write to a named pipe.\n Open another terminal and use command 'cat < cs_output'.");
 
 }
 

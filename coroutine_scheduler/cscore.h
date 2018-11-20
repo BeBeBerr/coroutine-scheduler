@@ -23,6 +23,7 @@ int get_current_tid(void);
 void start_scheduler(void);
 void cs_sleep(long sleep_seconds);
 long cs_read_terminal(void *buf, long size);
+void cs_output(const char *fmt, ...);
 
 
 // Colorful printing

@@ -13,7 +13,7 @@ int a = 0;
 
 void task_A() {
     while (1) {
-        printf("[%d] A: %d\n", get_current_tid(), ++a);
+        cs_output("[%d] A: %d\n", get_current_tid(), ++a);
         cs_sleep(5);
         spin_once();
     }
@@ -21,7 +21,7 @@ void task_A() {
 
 void task_B() {
     while (1) {
-        printf("[%d] B: %d\n",get_current_tid(), ++a);
+        cs_output("[%d] B: %d\n",get_current_tid(), ++a);
         cs_sleep(5);
         spin_once();
     }

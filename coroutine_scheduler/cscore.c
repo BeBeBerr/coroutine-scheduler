@@ -11,6 +11,7 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <stdarg.h>
 
 #include "cscore.h"
 #include "cssysctrl.h"
@@ -139,8 +140,10 @@ void cs_sleep(long sleep_seconds) {
     task_to_sleep->sleep_expired_time = expired_time; // set wake up time
 }
 
+// Read function will block the whole system
+// This function will use the unblocking version, and always spin
 long cs_read_terminal(void *buf, long size) {
-    int fd = open("/dev/tty", O_RDONLY | O_NONBLOCK);
+    int fd = open("/dev/tty", O_RDONLY | O_NONBLOCK); // open standard input
     if (fd < 0) {
         print_error("%s", "open /dev/tty error.");
         return -1;
@@ -154,4 +157,24 @@ long cs_read_terminal(void *buf, long size) {
             spin_once(); //try angain later
         }
     }
+}
+
+// To make the terminal cleaner,
+// Use this function to 'print' messages to a named pipe
+void cs_output(const char *fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+    char str[200];
+    vsprintf(str, fmt, args);
+    va_end(args);
+    
+    int pipe_fd = open("./cs_output", O_WRONLY);
+    if (pipe_fd < 0) {
+        // named pipe haven't created yet
+        system("mkfifo ./cs_output");
+        pipe_fd = open("./cs_output", O_WRONLY);
+    }
+    
+    write(pipe_fd, str, strlen(str));
+    // close(pipe_fd); // Do not close the pipe.
 }
